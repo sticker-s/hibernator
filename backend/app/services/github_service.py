@@ -2,6 +2,7 @@ import httpx
 from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.models.models import Candidate, Identity, TechnicalArtifact
+from app.services.ai_service import evaluate_candidate_craftsmanship, generate_embedding
 
 GITHUB_API_BASE = "https://api.github.com"
 
@@ -32,6 +33,7 @@ def save_candidate_from_github(db: Session, github_data: dict):
 
     candidate_id = f"gh_{profile['id']}"
 
+    ai_evaluaion = evaluate_candidate_craftsmanship(repos)
     candidate = db.query(Candidate).filter(Candidate.id == candidate_id).first()
     if not candidate:
         candidate = Candidate(
@@ -40,8 +42,8 @@ def save_candidate_from_github(db: Session, github_data: dict):
             primary_email = profile.get("email"),
             location = profile.get("location"),
             current_org = profile.get("company"),
-            craftsmanship_score = 75.0,
-            hibernation_index = 20.0
+            craftsmanship_score = ai_evaluaion["craftsmanship_score"],
+            hibernation_index = ai_evaluaion["hibernation_index"]
         )
         db.add(candidate)
         db.flush()
@@ -54,16 +56,24 @@ def save_candidate_from_github(db: Session, github_data: dict):
             profile_url = profile["html_url"]
         )
         db.add(identity)
+    else:
+        candidate.craftsmanship_score = ai_evaluaion["craftsmanship_score"]
+        candidate.hibernation_index = ai_evaluaion["hibernation_index"]
+
     for repo in repos:
         artifact_id = f"repo_{repo['id']}"
         existing_art = db.query(TechnicalArtifact).filter(TechnicalArtifact.id == artifact_id).first()
+
+        summary_text = repo.get("description") or f"Public repo {repo['name']} written in {repo.get('language', 'code')}"
+        embeddind_vector = generate_embedding(summary_text)
+
         if not existing_art:
             artifact = TechnicalArtifact(
                 id = artifact_id,
                 candidate_id = candidate.id,
                 artifact_type = "repository",
                 title = repo["name"],
-                summary = repo.get("description") or "Public Repository",
+                summary = summary_text,
                 url = repo["html_url"],
                 raw_metadata = {
                     "stars": repo.get("stargazers_count", 0),
