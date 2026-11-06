@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.core.database import init_db
 from app.api.candidates import router as candidate_router
+from app.api.campaigns import router as campaign_router
 
 app = FastAPI(title="Hibernator Intelligence Engine")
 
@@ -9,6 +10,7 @@ def on_startup():
     init_db()
 
 app.include_router(candidate_router)
+app.include_router(campaign_router)
 
 @app.get("/")
 def read_root():
