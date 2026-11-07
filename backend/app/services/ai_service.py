@@ -1,33 +1,35 @@
 import json
-import numpy as np
-from openai import OpenAI
+from google import genai
+from google.genai import types
 from app.core.config import settings
 
-client = OpenAI(api_key=settings.OPENAI_API_KEY) if settings.OPENAI_API_KEY else None
+client = genai.Client(api_key=settings.GEMINI_API_KEY) if settings.GEMINI_API_KEY else None
 
 def generate_embedding(text: str) -> list[float]:
-    """ generate a vector embedding for semantic search"""
-    if not client or not settings.OPENAI_API_KEY:
-        np.random.seed(abs(hash(text)) % (2**32))
-        return np.random.uniform(-1, 1, 384).tolist()
-
+    """ generate a 384-dim vector embedding using gemini text-embedding for semantic search"""
+    if not client or not settings.GEMINI_API_KEY:
+        return [0.0] * 384
     try:
-        repsonse = client.embeddings.create(
-            model = "text-embedding-3small",
-            input=text
+        repsonse = client.models.embed_content(
+            model = "text-embedding-004",
+            contents=text,
+            config=types.EmbedContentConfig(
+                outputDimensionality=384
+            )
         )
-        return repsonse.data[0].embedding[:384]
-    except Exception:
-        np.random.seed(abs(hash(text)) % (2**32))
-        return np.random.uniform(-1, 1, 384).tolist()
+        return repsonse.embeddings.values
+    except Exception as e:
+        print(f"⚠️ gemini Embedding Error: {e}")
+        return [0.0] * 384
 
 def evaluate_candidate_craftsmanship(repos: list[dict]) -> dict:
-    # use llm to score craftsmanship and hibernation
-    if not client or not settings.OPENAI_API_KEY:
+    # use gemini flash to score craftsmanship and hibernation
+    if not client or not settings.GEMINI_API_KEY:
+        print("⚠️ GEMINI kEY MISSING. Returning baseline scores (75.0 / 30.0).")
         return {
-            "craftsmanship_score": 78.5,
-            "hibernation_index": 45.0,
-            "summary": "Candidiate porfile imported with public repos"
+            "craftsmanship_score": 75.0,
+            "hibernation_index": 30.0,
+            "summary": "Standard profile evaluation."
         }
     
     repo_summary = "\n".join([
@@ -49,16 +51,18 @@ def evaluate_candidate_craftsmanship(repos: list[dict]) -> dict:
     """
 
     try: 
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json"
+            )
         )
-        content = response.choices[0].message.content.strip()
-        return json.loads(content)
-    except Exception:
+        return json.loads(response.text)
+    except Exception as e:
+        print(f"❌ Gemini Evaluation Error: {e}")
         return {
             "craftsmanship_score": 75.0,
             "hibernation_index": 30.0,
-            "summary": "Standard github progile evaluation."
+            "summary": "Standard profile fallback."
         }
