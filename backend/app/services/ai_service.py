@@ -17,7 +17,11 @@ def generate_embedding(text: str) -> list[float]:
                 outputDimensionality=384
             )
         )
-        return repsonse.embeddings.values
+        if hasattr(repsonse, "embeddings") and repsonse.embeddings:
+            return repsonse.embeddings.values[:384]
+        if hasattr(repsonse, "embedding") and repsonse.embedding:
+            return repsonse.embedding.values[:384]
+        return [0.0] * 384
     except Exception as e:
         print(f"⚠️ gemini Embedding Error: {e}")
         return [0.0] * 384
@@ -52,7 +56,7 @@ def evaluate_candidate_craftsmanship(repos: list[dict]) -> dict:
 
     try: 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.8-flash",
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json"

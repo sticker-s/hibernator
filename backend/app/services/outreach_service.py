@@ -18,11 +18,15 @@ def generate_personalized_outreach(db: Session, campaign_id: str, candidate_id: 
         for a in artifacts
     ])
     
-    subject = f"Connecting regarding work on {artifacts.title if artifacts else 'open source' }"
+    default_repo_title = artifacts.title if artifacts else 'open source'
+    subject = f"Connecting regarding work on {default_repo_title}"
     body = f"Hi {candidate.full_name or 'there'},\n\nI was reviewing your technical artifacts and would love to chat about {campaign.target_role} opportunities."
     if settings.GEMINI_API_KEY:
         try:
-            client = genai.Client(api_key=settings.GEMINI_API_KEY)
+            client = genai.Client(
+                api_key=settings.GEMINI_API_KEY,
+                http_options={"api_version": "v1beta"}
+            )
             prompt = f"""
             You are a Principal Engineer reaching out to a passive developer on behalf of a tech team.
             
@@ -47,7 +51,7 @@ def generate_personalized_outreach(db: Session, campaign_id: str, candidate_id: 
             """
 
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.8-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json"
