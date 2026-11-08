@@ -7,14 +7,22 @@ from app.api.campaigns import router as campaign_router
 
 app = FastAPI(title="Hibernator Intelligence Engine")
 
-raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
-allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
-if not allowed_origins or "*" in allowed_origins:
-    allowed_origins = ["*"]
+# Build allowed origins list
+default_origins = [
+    "http://localhost:3000",
+    "https://hibernator-frontend.vercel.app",
+]
+custom_origins = [
+    o.strip()
+    for o in os.getenv("ALLOWED_ORIGINS", "").split(",")
+    if o.strip()
+]
+allowed_origins = list(set(default_origins + custom_origins))
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
