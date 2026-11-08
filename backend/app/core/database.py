@@ -22,10 +22,26 @@ SessionLocal = sessionmaker(autocommit = False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 def init_db():
-    with engine.connect() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
-        conn.commit()
-    Base.metadata.create_all(bind=engine)
+    if not db_url:
+        print("⚠️ DATABASE_URL is empty. Skipping DB initialization.", flush=True)
+        return
+
+    # Attempt to enable vector extension (cloud DBs like Supabase often already have it)
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+            conn.commit()
+            print("✅ Vector extension verified.", flush=True)
+    except Exception as e:
+        print(f"ℹ️ Note on vector extension check: {e}", flush=True)
+
+    # Attempt to create tables
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables created/verified successfully!", flush=True)
+    except Exception as e:
+        print(f"⚠️ Warning: Database table creation encountered an issue: {e}", flush=True)
+        print("⚠️ Server will continue running. Verify your DATABASE_URL in Render if DB requests fail.", flush=True)
 
 def get_db():
     db = SessionLocal()
