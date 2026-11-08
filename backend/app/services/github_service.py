@@ -65,7 +65,8 @@ def save_candidate_from_github(db: Session, github_data: dict):
         existing_art = db.query(TechnicalArtifact).filter(TechnicalArtifact.id == artifact_id).first()
 
         summary_text = repo.get("description") or f"Public repo {repo['name']} written in {repo.get('language', 'code')}"
-        embeddind_vector = generate_embedding(summary_text)
+        text_to_embed = f"{repo['name']}: {summary_text}"
+        embedding_vector = generate_embedding(text_to_embed)
 
         if not existing_art:
             artifact = TechnicalArtifact(
@@ -75,6 +76,7 @@ def save_candidate_from_github(db: Session, github_data: dict):
                 title = repo["name"],
                 summary = summary_text,
                 url = repo["html_url"],
+                embedding = embedding_vector,
                 raw_metadata = {
                     "stars": repo.get("stargazers_count", 0),
                     "language": repo.get("language"),
@@ -82,6 +84,10 @@ def save_candidate_from_github(db: Session, github_data: dict):
                 }
             )
             db.add(artifact)
+        else:
+            # Update embedding and summary for existing artifacts
+            existing_art.summary = summary_text
+            existing_art.embedding = embedding_vector
             
     db.commit()
     db.refresh(candidate)
