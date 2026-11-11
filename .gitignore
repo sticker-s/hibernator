@@ -3,9 +3,11 @@
 *.env
 
 # python / backend
-backend/venv/
-backend/__pycache__/
+backend-py-backup/venv/
+backend-py-backup/__pycache__/
 *.pyc
+
+node_modules
 
 
 # Node 

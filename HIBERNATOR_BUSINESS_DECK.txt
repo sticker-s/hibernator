@@ -1,0 +1,368 @@
+================================================================================
+                    HIBERNATOR: EXECUTIVE & TEAM BUSINESS DECK
+================================================================================
+Document Type   : 12-Slide Strategic Deck & Product Onboarding Brief
+Target Audience : Engineering Teammates, Product Leads, Technical Investors
+Version         : 1.0.0 | Q1 2026
+Status          : Production MVP Deployed (Vercel + Render + Supabase pgvector)
+================================================================================
+
+
+--------------------------------------------------------------------------------
+SLIDE 1: COVER & VISION
+--------------------------------------------------------------------------------
+HIBERNATOR: AUTONOMOUS AI TALENT INTELLIGENCE ENGINE
+"Sourcing the top 5% of deep engineers who never browse job boards."
+
++--------------------------------------------------------------------------+
+|                                                                          |
+|    [!] H I B E R N A T O R                                               |
+|    Autonomous Technical Talent Sourcing & Craftsmanship Evaluation Engine|
+|                                                                          |
+|    Live Production Stack:                                                |
+|    * Frontend     : Next.js 16 + Tailwind CSS (Vercel)                   |
+|    * Backend API  : FastAPI + Google Gemini AI Engine (Render)           |
+|    * Vector Store : PostgreSQL 16 + pgvector (Supabase Session Pooler)   |
+|                                                                          |
++--------------------------------------------------------------------------+
+   
+* CORE PREMISE:
+  The world's highest-impact software architects, AI kernel developers, and
+  systems engineers rarely update their LinkedIn profiles or tag themselves
+  #OpenToWork. They are "hibernating" in deep engineering work—submitting
+  pull requests to foundational repositories, writing RFCs, and publishing
+  arXiv research preprints.
+
+* OUR MISSION:
+  Replace generic keyword-matching recruiters with an autonomous, code-literate
+  AI engine that identifies elite builders through verified technical exhaust
+  and connects with them engineer-to-engineer.
+
+
+--------------------------------------------------------------------------------
+SLIDE 2: THE PROBLEM
+--------------------------------------------------------------------------------
+THE PASSIVE TECHNICAL TALENT PARADOX
+Why conventional recruiting fails for top-decile technical talent:
+
+  [ Resumes & Buzzwords ]
+  (LinkedIn / Job Boards)
+           |
+           v
+  [ Keyword Matchers ] ────────> Zero code audit; recruiters match string tokens
+           |
+           v
+  [ Generic InMail Spam ] ─────> "Impressed by your background at X!"
+           |
+           v
+  [ 98% Archive / Bounce Rate ]
+  Elite engineers tune out recruiter noise and ignore outreach completely.
+
+THE THREE INDUSTRY BOTTLENECKS:
+1. SHALLOW SIGNAL DETECTION:
+   Conventional platforms rely on self-reported job titles and keyword stuffing
+   rather than tangible code craftsmanship, commit velocity, or architectural
+   depth.
+
+2. TEMPLATE FATIGUE & LOW RESPONSE RATES:
+   Top engineers receive dozens of copy-pasted recruiter messages weekly.
+   Typical reply rates on InMail hover around 2% to 4%.
+
+3. THE SOURCING ASYMMETRY:
+   Founders and CTOs waste 20+ hours a week manually browsing GitHub repos,
+   arXiv papers, and personal tech blogs trying to identify verified builders.
+
+
+--------------------------------------------------------------------------------
+SLIDE 3: THE SOLUTION
+--------------------------------------------------------------------------------
+MINING DEEP TECHNICAL EXHAUST INTO ACTIONABLE TALENT SIGNALS
+
+  [ Raw Engineering Exhaust ]
+  - Public Git Commits, Code Diffs, and AST Changes
+  - Merged Pull Requests & Peer Code Reviews
+  - arXiv Papers & Semantic Scholar Citations
+  - Engineering Blogs & daily.dev syndication
+                 |
+                 v
+  [ Entity Resolution & Identity Graph Engine ]
+  Resolves git commit emails, PGP keys, aliases, and personal domains
+                 |
+                 v
+  [ AI Craftsmanship & Hibernation Evaluation ]
+  Powered by Gemini Multimodal + pgvector 384-dimensional dense embeddings
+                 |
+                 v
+  [ Context-Aware Autonomous Outreach ]
+  Drafts hyper-personalized emails citing exact PR numbers, diffs, & impact
+
+KEY ADVANTAGES:
+* ZERO SELF-REPORTING:
+  Candidates are evaluated purely on what they have engineered, reviewed, and
+  shipped to production.
+* AUTONOMOUS IDENTITY RESOLUTION:
+  Connects anonymous GitHub handles, git commit metadata, and research author
+  profiles into a single verified candidate dossier.
+* HIGH-EMPATHY, CODE-SPECIFIC HOOKS:
+  Outreach speaks developer-to-developer, referencing actual pull requests,
+  algorithms, and performance optimizations.
+
+
+--------------------------------------------------------------------------------
+SLIDE 4: CORE PRODUCT INNOVATIONS
+--------------------------------------------------------------------------------
+THE THREE PROPRIETARY METRICS
+
++--------------------------+--------------------------+------------------------+
+|   Craftsmanship Score    |    Hibernation Index     |   Vector Skill Match   |
+|         (0 - 100)        |         (0 - 100)        |     (pgvector 384)     |
++--------------------------+--------------------------+------------------------+
+| Evaluates:               | Evaluates:               | Evaluates:             |
+| * Code complexity & AST  | * High commit velocity   | * High-dimensional     |
+| * Test coverage impact   | * Low social noise       |   semantic similarity  |
+| * PR review depth        | * Long role tenure       | * Matches manager's    |
+| * Architectural clarity  | * Zero job-board activity|   natural language to  |
+|                          |                          |   repo diff summaries  |
++--------------------------+--------------------------+------------------------+
+
+WHAT MAKES THIS DEFENSIBLE?
+1. CRAFTSMANSHIP SCORE (Cs):
+   Uses Gemini AI to analyze project complexity, programming language stack,
+   forks, star ratios, and technical summaries.
+2. HIBERNATION INDEX (Hi):
+   Identifies developers doing world-class work in stealth without active
+   job-seeking behavior.
+3. ENGINEER-TO-ENGINEER TONE:
+   Strips all corporate fluff, recruiter cliches, and aggressive pitches;
+   communicates technical peer to technical peer.
+
+
+--------------------------------------------------------------------------------
+SLIDE 5: SYSTEM ARCHITECTURE & DATA FLOW
+--------------------------------------------------------------------------------
+PRODUCTION-GRADE MICRO-ARCHITECTURE
+
+  CLIENT LAYER:
+  +-----------------------------------------------------------------------+
+  |  Next.js 16 Web Dashboard (Hosted on Vercel)                          |
+  |  - Candidate discovery cards & metric visualizers                     |
+  |  - Semantic vector search interface                                   |
+  |  - Campaign manager & outreach drafting studio                        |
+  +-----------------------------------------------------------------------+
+                                    |  (REST API / CORS)
+                                    v
+  API & INTELLIGENCE LAYER:
+  +-----------------------------------------------------------------------+
+  |  FastAPI Python 3.14 Engine (Hosted on Render)                        |
+  |  - GitHub profile & repository crawler (Async HTTPX)                  |
+  |  - Gemini 3.5 & 3.1 Flash: Craftsmanship evaluation & email drafting |
+  |  - Gemini Embedding 001: 384-dimensional dense semantic vectors       |
+  +-----------------------------------------------------------------------+
+                                    |  (SQLAlchemy + Psycopg2 Pooler)
+                                    v
+  DATA & STORAGE LAYER:
+  +-----------------------------------------------------------------------+
+  |  PostgreSQL 16 + pgvector (Hosted on Supabase)                        |
+  |  - candidates, identities, technical_artifacts, campaigns, outreach   |
+  |  - pgvector L2 distance (<->) for instant sub-50ms semantic search    |
+  +-----------------------------------------------------------------------+
+
+
+--------------------------------------------------------------------------------
+SLIDE 6: CURRENT MVP STATUS (WHAT IS LIVE TODAY)
+--------------------------------------------------------------------------------
+PRODUCTION CAPABILITIES VALIDATED & TESTED
+
+LIVE DEPLOYMENT URLS:
+* Frontend Dashboard : https://hibernator-frontend.vercel.app
+* Backend API Server : https://hibernator-backend.onrender.com
+* Database Engine    : PostgreSQL 16 + pgvector (Supabase Session Pooler)
+
+FEATURE VALIDATION CHECKLIST:
+[x] Automated Profile Ingestion:
+    Ingests any GitHub username, retrieves profile data, pulls top repos,
+    and indexes technical stack metadata.
+[x] AI Craftsmanship Evaluation:
+    Computes automated Craftsmanship Scores (Cs), Hibernation Indices (Hi),
+    and 2-sentence technical summaries via Gemini.
+[x] pgvector Semantic Search:
+    Real-time semantic querying across all candidates' technical artifacts
+    using 384-dimensional vector distance matching.
+[x] Campaign Management:
+    Campaign creation with customizable target roles and tone profiles
+    (Engineer-to-Engineer, Professional, Casual, Visionary).
+[x] Hyper-Personalized Outreach Drafts:
+    Generates contextual email subject and body citing exact repository names
+    and specific technical competencies.
+[x] Outreach Audit Trail:
+    Full relational logging of generated outreach drafts linked to campaigns
+    and candidate profiles.
+
+
+--------------------------------------------------------------------------------
+SLIDE 7: MARKET OPPORTUNITY & TAM
+--------------------------------------------------------------------------------
+THE $18B TECHNICAL TALENT DISCOVERY MARKET
+
+  ========================================================================
+  TOTAL ADDRESSABLE MARKET (TAM)
+  $18.4 Billion - Global Tech Sourcing & Recruiting Software
+  ------------------------------------------------------------------------
+  SERVICEABLE ADDRESSABLE MARKET (SAM)
+  $4.2 Billion - Specialized AI, Systems & Deep-Tech Hiring Tools
+  ------------------------------------------------------------------------
+  SERVICEABLE OBTAINABLE MARKET (SOM)
+  $340 Million - Seed to Series B tech startups & specialized tech recruiters
+  ========================================================================
+
+KEY MARKET TAILWINDS:
+1. THE AI & SYSTEMS TALENT WAR:
+   Compensation for senior AI kernel, distributed systems, and CUDA engineers
+   has surged to $400K-$1M+. Companies will pay large software premiums for tools
+   that access verified passive builders.
+2. COLLAPSE OF CONVENTIONAL INMAIL:
+   Response rates on standard LinkedIn messaging fell by 34% over the last
+   3 years due to automated AI spam.
+3. RISE OF THE BUILDER-RECRUITER:
+   Technical founders and engineering managers are taking over high-touch
+   sourcing from HR generalists.
+
+
+--------------------------------------------------------------------------------
+SLIDE 8: BUSINESS MODEL & MONETIZATION
+--------------------------------------------------------------------------------
+B2B SAAS + HIGH-MARGIN USAGE TIERS
+
++------------------+------------------+------------------+------------------+
+|   Starter Tier   |    Pro Studio    |    Enterprise    | Placement Credit |
++------------------+------------------+------------------+------------------+
+| $299 / month     | $799 / month     | $2,499+ / month  | Pay-Per-Success  |
++------------------+------------------+------------------+------------------+
+| * 1 Seat         | * 5 Seats        | * Unlimited Seats| * Optional       |
+| * 100 Profile    | * 500 Profile    | * Full Pipeline  |   recruiter-fee  |
+|   Ingests / mo   |   Ingests / mo   |   Sync & API     |   guarantee      |
+| * Semantic Vector| * Automated Multi| * Custom ATS     | * 10% fee on     |
+|   Search         |   Touch Outreach |   Integrations   |   successful hire|
+| * Human-in-loop  | * CRM & Analytics| * Dedicated IP   |   vs traditional |
+|   Outreach Gen   | * Team Sharing   |   Warmup         |   25% agency fee |
++------------------+------------------+------------------+------------------+
+
+UNIT ECONOMICS TARGETS:
+* Target Customer Lifetime Value (LTV) : $14,000+
+* Target Customer Acquisition Cost (CAC) : $2,500
+* Target Gross Margin                    : 82% (primarily LLM API & DB hosting)
+
+
+--------------------------------------------------------------------------------
+SLIDE 9: COMPETITIVE LANDSCAPE & MOAT
+--------------------------------------------------------------------------------
+WHY HIBERNATOR WINS
+
++------------------+--------------------+--------------------+--------------------+
+| Dimension        | LinkedIn Recruiter | Gem / Apollo       | Hibernator         |
++------------------+--------------------+--------------------+--------------------+
+| Primary Source   | Resumes & Titles   | Scraped Profiles   | Git Commits & Diffs|
+| Target Audience  | Active Job Seekers | General Workers    | Passive Builders   |
+| Signal Depth     | Keywords & Titles  | Past Company Names | AST Code & PR Diffs|
+| Search Type      | Boolean Keywords   | Keyword Filters    | Vector (pgvector)  |
+| Outreach Quality | Generic Templates  | Variable Merges    | Peer-to-Peer Hooks |
+| Avg. Reply Rate  | 2% - 5%            | 8% - 12%           | Target: 28% - 42%  |
++------------------+--------------------+--------------------+--------------------+
+
+OUR DEFENSIBLE MOAT:
+1. THE IDENTITY GRAPH:
+   Resolves anonymous GitHub handles, git commit metadata, and arXiv author
+   profiles into one verified entity.
+2. PROPRIETARY CODE AUDIT:
+   Evaluates engineering depth and passive activity rather than self-reported
+   marketing claims.
+3. ENGINEERING BRAND REPUTATION:
+   Emails written by Hibernator read like genuine outreach from a principal
+   engineer, preserving hiring brand integrity.
+
+
+--------------------------------------------------------------------------------
+SLIDE 10: GO-TO-MARKET (GTM) STRATEGY
+--------------------------------------------------------------------------------
+LAND & EXPAND VIA FOUNDERS, VCS, AND OPEN SOURCE
+
+  [ Phase 1: High-Leverage Seed ]
+  Partner with top tech venture capital talent networks (YC, a16z, Sequoia)
+  to offer Hibernator directly to their portfolio founders.
+                |
+                v
+  [ Phase 2: Community Bottom-Up ]
+  Publish the "Hibernator Index"—bi-weekly automated leaderboards highlighting
+  breakthrough open-source contributors in AI and systems engineering.
+                |
+                v
+  [ Phase 3: Enterprise Expansion ]
+  Deploy 1-click ATS integrations (Greenhouse, Lever, Ashby) to embed Hibernator
+  directly into talent team workflows.
+
+PILOT INITIATIVE:
+* Target: 25 Seed/Series A AI infrastructure startups.
+* Value Proposition: "Interview 3 verified technical candidates within 14 days
+  or 100% refund."
+
+
+--------------------------------------------------------------------------------
+SLIDE 11: 3-PHASE EXECUTION ROADMAP
+--------------------------------------------------------------------------------
+FROM WORKING PROTOTYPE TO MARKET LEADERSHIP
+
+PHASE 1 (CURRENT - COMPLETED):
+* GitHub crawler & profile ingestion engine.
+* PostgreSQL + pgvector 384-dimensional semantic search.
+* Gemini AI Craftsmanship Scoring & Hibernation Index calculation.
+* Next.js 16 Web Dashboard with candidate pipeline & campaign manager.
+* Automated personalized engineer-to-engineer outreach generator.
+
+PHASE 2 (Q2 2026 - MULTI-SIGNAL & AUTONOMY):
+* arXiv computer science paper ingestor & citation velocity tracking.
+* daily.dev, Substack, and Hacker News technical blog aggregators.
+* Multi-touch follow-up email sequences with reply detection webhooks.
+* Automated Identity Graph expansion across GitHub, arXiv, and domains.
+
+PHASE 3 (Q3-Q4 2026 - SCALE & ECOSYSTEM):
+* Native ATS integrations (Greenhouse, Ashby, Lever).
+* Chrome Extension for instant GitHub/arXiv profile dossier preview.
+* Organization-wide talent pooling and recruiter collision prevention.
+* Custom domain warm-up and email deliverability monitoring.
+
+
+--------------------------------------------------------------------------------
+SLIDE 12: TEAM ROLES & IMMEDIATE NEXT STEPS
+--------------------------------------------------------------------------------
+SPRINT RESPONSIBILITIES FOR INCOMING TEAMMATES
+
++-------------------------+----------------------------------------------------+
+| Team Role               | Immediate 30-Day Objective                         |
++-------------------------+----------------------------------------------------+
+| Frontend Engineer       | * Refine candidate dossier view (diff inspector,   |
+|                         |   craftsmanship badges, responsive modals).        |
+|                         | * Add campaign conversion metrics & analytics view.|
++-------------------------+----------------------------------------------------+
+| Backend / Data Engineer | * Implement worker queues (Redis / BullMQ) for     |
+|                         |   high-volume background GitHub crawls.            |
+|                         | * Build arXiv CS paper ingestor script.            |
++-------------------------+----------------------------------------------------+
+| AI / ML Engineer        | * Fine-tune craftsmanship scoring prompt weights.  |
+|                         | * Build multi-turn follow-up email cadence logic.  |
++-------------------------+----------------------------------------------------+
+| Product / GTM Lead      | * Conduct onboarding user calls with 10 technical  |
+|                         |   founders / hiring managers.                      |
+|                         | * Launch initial pilot with partner VC portfolio.  |
++-------------------------+----------------------------------------------------+
+
+IMMEDIATE ACTION ITEMS:
+1. CLONE REPO: git clone https://github.com/sticker-s/hibernator.git
+2. CONFIGURE ENV: Copy template values from d:\ricoz\.env
+3. RUN BACKEND: uvicorn app.main:app --reload --port 8000
+4. RUN FRONTEND: npm run dev (inside /frontend)
+5. SPRINT 1 GOAL: Add code diff preview directly inside candidate profile cards.
+
+================================================================================
+           HIBERNATOR ENGINE - SOURCING THE BUILDERS BEHIND TOMORROW
+================================================================================
+
