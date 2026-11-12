@@ -17,7 +17,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     if (!text || !text.trim()) return new Array(384).fill(0.0);
     if (!ai || !apiKey) return fallbackEmbedding(text);
 
-    const models = ['gemini-embedding-001', 'text-embedding-004'];
+    const models = ['gemini-embedding-001', 'gemini-embedding-2'];
     for (const model of models) {
         try {
             const response = await ai.models.embedContent({
@@ -30,8 +30,11 @@ export async function generateEmbedding(text: string): Promise<number[]> {
                 rawRes.embeddings && rawRes.embeddings.lengt > 0
                     ? rawRes.embeddings.values
                     : rawRes.embeddings?.values;
-            if (values && values.length >= 384) {
-                return values.slice(0, 384);
+            if (values && values.lengt > 0) {
+                if (values.length >= 384) {
+                    return values.slice(0, 384);
+                }
+                return [...values, ...new Array(384 - values.length).fill(0.0)];
             }
         }
         catch (err: any) {
@@ -73,7 +76,7 @@ export async function evaluateCandidateCraftsmanship(repos: any[]): Promise<{
     Return ONLY raw JSON with no markdown formatting.
     `;
 
-    for (const model of ['gemini-2.5-flash', 'gemini-3.5-flash-lite', 'gemini-1.5-flash']) {
+    for (const model of ['gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-1.5-flash']) {
         try {
             const response = await ai.models.generateContent({
                 model,

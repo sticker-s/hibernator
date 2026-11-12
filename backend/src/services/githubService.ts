@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { Candidate, TechnicalArtifact } from '../models/index.js';
 import { evaluateCandidateCraftsmanship, generateEmbedding } from './aiService.js';
-import { profile } from 'node:console';
-import { array } from 'node:stream/iter';
 
 const GITHUB_API_BASE = 'https://api.github.com';
 
@@ -77,7 +75,7 @@ export async function saveCandidateFromGitHub(githubData: any) {
                     forks: repo.forks_count || 0
                 }
             },
-            { upsert: true, new: true }
+            { upsert: true, returnDocument: 'after' }
         );
     }
     return candidate;

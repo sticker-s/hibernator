@@ -8,13 +8,13 @@ const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 // 1. create campaign
 router.post('/', async (req: Request, res: Response) => {
-    const titleQuery = req.query.title;
-    const targetRoleQuery = req.query.target_role;
-    const toneProfileQuery = req.query.tone_profile;
+    const titleVal = req.body?.title || req.query.title;
+    const targetRoleVal = req.body?.target_role || req.query.target_role;
+    const toneProfileVal = req.body?.tone_profile || req.query.tone_profile;
     // Ensure plain string values 
-    const campTitle = typeof titleQuery === 'string' && titleQuery.trim() ? titleQuery : 'General Sourcing';
-    const targetRole = typeof targetRoleQuery === 'string' && targetRoleQuery.trim() ? targetRoleQuery : 'Senior Software Engineer';
-    const toneProfile = typeof toneProfileQuery === 'string' && toneProfileQuery.trim() ? toneProfileQuery : 'engineer-to-engineer';
+    const campTitle = typeof titleVal === 'string' && titleVal.trim() ? titleVal.trim() : 'General Sourcing';
+    const targetRole = typeof targetRoleVal === 'string' && targetRoleVal.trim() ? targetRoleVal.trim() : 'Senior Software Engineer';
+    const toneProfile = typeof toneProfileVal === 'string' && toneProfileVal.trim() ? toneProfileVal.trim() : 'engineer-to-engineer';
 
     const campaignId = `camp_${Math.abs(campTitle.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)) % 1000000}`;
     const campaign = await Campaign.findOneAndUpdate(
@@ -25,7 +25,7 @@ router.post('/', async (req: Request, res: Response) => {
             target_role: targetRole,
             tone_profile: toneProfile
         },
-        { upsert: true, new: true }
+        { upsert: true, returnDocument: 'after' }
     );
     return res.json(campaign);
 });
@@ -74,19 +74,22 @@ router.post('/:campaign_id/generate-outreach/:candidate_id', async (req: Request
         Draft a brief, highly personalized, engineer-to-engineer email referencing specific repositories. 
         Return ONLY a JSON object with keys: "subject" and "body".
         `;
-        try {
-            const resp = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: prompt,
-                config: { responseMimeType: 'application/json' }
-            });
-            if (resp.text) {
-                const parsed = JSON.parse(resp.text);
-                subject = parsed.subject || subject;
-                body = parsed.body || body;
+        for (const model of ['gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-1.5-flash']) {
+            try {
+                const resp = await ai.models.generateContent({
+                    model,
+                    contents: prompt,
+                    config: { responseMimeType: 'application/json' }
+                });
+                if (resp.text) {
+                    const parsed = JSON.parse(resp.text);
+                    subject = parsed.subject || subject;
+                    body = parsed.body || body;
+                    break;
+                }
+            } catch (err: any) {
+                console.warn('⚠️ Outreach generation error:', err.message);
             }
-        } catch (err: any) {
-            console.warn('⚠️ Outreach generation error:', err.message);
         }
     }
     const outreachId = `out_${campaign_id}_${candidate_id}`;
@@ -94,12 +97,13 @@ router.post('/:campaign_id/generate-outreach/:candidate_id', async (req: Request
         { id: outreachId },
         {
             id: outreachId,
-            campaign_id, candidate_id,
+            campaign_id,
+            candidate_id,
             status: 'drafted',
             email_subject: subject,
             email_body: body
         },
-        { upsert: true, new: true }
+        { upsert: true, returnDocument: 'after' }
     );
 
     return res.json({

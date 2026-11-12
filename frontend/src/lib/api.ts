@@ -91,7 +91,7 @@ export const CampaignService = {
     },
 
     async create(title: string, target_role: string, tone_profile = 'engineer-to-engineer'): Promise<Campaign> {
-        const res = await api.post('/campaigns/', null, {
+        const res = await api.post('/campaigns/', { title, target_role, tone_profile }, {
             params: { title, target_role, tone_profile }
         });
         return res.data;
