@@ -8,7 +8,7 @@ backend-py-backup/__pycache__/
 *.pyc
 
 node_modules
-
+dist
 
 # Node 
 frontend/node_modules/
